@@ -1,5 +1,5 @@
-import { createAppSlice } from "@/lib/createAppSlice";
-import type { AppThunk } from "@/lib/store";
+import { createAppSlice } from "lib/store/createAppSlice";
+import type { AppThunk } from "@lib/store/store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { fetchCount } from "./counterAPI";
 
@@ -31,11 +31,9 @@ export const counterSlice = createAppSlice({
       state.value -= 1;
     }),
     // Use the `PayloadAction` type to declare the contents of `action.payload`
-    incrementByAmount: create.reducer(
-      (state, action: PayloadAction<number>) => {
-        state.value += action.payload;
-      },
-    ),
+    incrementByAmount: create.reducer((state, action: PayloadAction<number>) => {
+      state.value += action.payload;
+    }),
     // The function below is called a thunk and allows us to perform async logic. It
     // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
     // will call the thunk with the `dispatch` function as the first argument. Async
@@ -58,7 +56,7 @@ export const counterSlice = createAppSlice({
         rejected: (state) => {
           state.status = "failed";
         },
-      },
+      }
     ),
   }),
   // You can define your selectors here. These selectors receive the slice
@@ -70,8 +68,7 @@ export const counterSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { decrement, increment, incrementByAmount, incrementAsync } =
-  counterSlice.actions;
+export const { decrement, increment, incrementByAmount, incrementAsync } = counterSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectCount, selectStatus } = counterSlice.selectors;

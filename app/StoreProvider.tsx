@@ -1,10 +1,14 @@
 "use client";
-import type { AppStore } from "@/lib/store";
-import { makeStore } from "@/lib/store";
+import type { AppStore } from "@lib/store/store";
+import { makeStore } from "@lib/store/store";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { Provider } from "react-redux";
+
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor } from "@lib/store/store";
+import Loading from "@components/Loading/Loading";
 
 interface Props {
   readonly children: ReactNode;
@@ -27,5 +31,12 @@ export const StoreProvider = ({ children }: Props) => {
     }
   }, []);
 
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      {children}
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
+  );
 };
